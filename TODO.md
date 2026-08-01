@@ -9,7 +9,11 @@ real use case.
 - [ ] Remove the stray empty `.git` from the neighbouring `TUI` folder if that
       init was a slip — it has no commits, so `Remove-Item -Recurse -Force .git`
       loses nothing.
-- [ ] Pushing to a remote, whenever you want one.
+- [ ] Fix the GitHub repo description: it currently says "Dos/Windows", but
+      `um` is a Win32 program and will not run under DOS. WinPE is the claim
+      worth making instead.
+- [ ] Add GitHub topics for discoverability: `windows`, `cli`, `console`,
+      `menu`, `winpe`, `cmd`, `batch`, `c`.
 
 ## Likely worth doing when a use case appears
 

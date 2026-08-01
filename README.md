@@ -25,6 +25,9 @@ every time you want a fork in the road.
 
 * Single `um.exe`, about 60 KB, no installer, no runtime to deploy.
 * Only imports `KERNEL32.dll` and `msvcrt.dll`, so it runs in **WinPE** as-is.
+* Windows only — it is a Win32 program built on the wide-character console API
+  (`GetCommandLineW`, `ReadConsoleInputW`, `SetConsoleTextAttribute`), so it
+  will not run under DOS. It runs anywhere Windows does, WinPE included.
 * Draws to the console device rather than stdout, so it still works when its
   output is being captured — which is what makes `set` in a menu entry
   possible (see [Setting variables](#setting-variables-in-the-calling-shell)).
@@ -198,6 +201,13 @@ argument for never making the destructive entry the timeout default.
 * **[docs/WINPE.md](docs/WINPE.md)** — recovery-drive walkthrough
 * **[WORKLOG.md](WORKLOG.md)** — what was built, decisions and why
 * **[TODO.md](TODO.md)** — what is deliberately not done yet
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE). Use it, change it, ship it; just keep the
+copyright notice.
 
 ---
 
