@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------
+#  Example menu file for a WinPE recovery drive.
+#  Load it with:   um -f X:\Recovery\menu.txt -d 4 -w 30
+#
+#  Lines starting with # or ; are comments.
+#  A line of dashes is a divider: skipped when navigating, takes no index.
+#  Commas are literal here -- one line is one item.
+# ---------------------------------------------------------------------
+
+!title  Recovery  --  choose carefully
+
+# Destructive entries first, above the divider, with the consequence in the
+# name rather than hidden in the command.
+Restore system image (WIPES DISK 0)  : X:\Recovery\restore.cmd
+Partition disk 0 only (WIPES DISK 0) : diskpart /s X:\Recovery\layout.txt
+Capture this machine to an image     : X:\Recovery\capture.cmd
+
+------------------------------------------------------------------
+
+# Safe entries below. Point -d at one of these, never at the ones above:
+# an unattended reboot with this stick still plugged in will select the
+# default, and it should find a command prompt, not a reformat.
+Command prompt                       : cmd.exe
+Show disk layout                     : diskpart /s X:\Recovery\list.txt
+Network setup                        : wpeinit
+Reboot                               : wpeutil reboot
+Shut down                            : wpeutil shutdown

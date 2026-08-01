@@ -1,0 +1,24 @@
+# Line endings.
+#
+# This matters more than usual here. cmd.exe is mostly tolerant of LF-only
+# batch files, but not reliably so around labels and `goto` -- a .cmd file with
+# Unix endings can fail in ways that look like a logic bug rather than a
+# whitespace problem. diskpart is fussier still about its script files. So both
+# are pinned to CRLF regardless of what platform the working copy is on.
+#
+# C sources and Markdown stay LF: every compiler and editor in play handles
+# them, and it keeps diffs clean when the repo is touched from Linux.
+
+* text=auto
+
+*.cmd  text eol=crlf
+*.bat  text eol=crlf
+*.txt  text eol=crlf
+
+*.c    text eol=lf
+*.h    text eol=lf
+*.md   text eol=lf
+Makefile*  text eol=lf
+
+*.exe  binary
+*.wim  binary

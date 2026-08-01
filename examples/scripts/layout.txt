@@ -1,0 +1,29 @@
+rem ---------------------------------------------------------------------
+rem  diskpart script -- UEFI / GPT layout on disk 0.
+rem  Run with:  diskpart /s X:\Recovery\layout.txt
+rem
+rem  THIS ERASES DISK 0 COMPLETELY.
+rem
+rem  "select disk 0" is the line to check before every use. Disk numbering
+rem  follows enumeration order, and on a machine with more than one drive the
+rem  one you want is not always 0. Run examples/scripts/list.txt first.
+rem ---------------------------------------------------------------------
+select disk 0
+clean
+convert gpt
+
+rem  EFI system partition
+create partition efi size=260
+format quick fs=fat32 label="System"
+assign letter=S
+
+rem  Microsoft reserved -- no filesystem, no letter
+create partition msr size=16
+
+rem  Windows
+create partition primary
+format quick fs=ntfs label="Windows"
+assign letter=W
+
+list volume
+exit

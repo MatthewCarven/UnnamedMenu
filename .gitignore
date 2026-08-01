@@ -1,0 +1,31 @@
+# Build intermediates
+build/
+*.o
+*.obj
+*.pdb
+*.idb
+*.ilk
+*.exp
+*.lib
+
+# Test binaries
+test_parse
+test_parse.exe
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+desktop.ini
+
+# NOTE: dist/ is deliberately NOT ignored.
+# um.exe is 60 KB with no dependencies, and the point of the thing is to be
+# copied onto a USB stick or into a boot.wim at short notice. Having the built
+# binary in the repo means you can grab it without a toolchain in front of you.
+# If you would rather keep binaries out, add a line:  dist/
+
+# Scratch dir used when a stale git lock had to be moved aside
+# (device tooling cannot delete files, only move them).
+_to_delete/

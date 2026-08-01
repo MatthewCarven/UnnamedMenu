@@ -1,0 +1,49 @@
+# ----------------------------------------------------------------------
+#
+#  NOTE: delivered as "Makefile.mingw" because the desktop bridge refuses to
+#  write a bare "Makefile". Rename it to "Makefile" and `make` works as
+#  documented, or run:  make -f Makefile.mingw
+#  um -- Makefile for MinGW-w64 (native on Windows, or cross from Linux).
+#
+#    make              build dist/um.exe for the host/default target
+#    make test         build and run the parser test suite natively
+#    make cross        build both x64 and x86 .exe with the cross compilers
+#    make clean
+#
+#  The parser is deliberately free of Win32 calls so `make test` can compile
+#  it with the host compiler and exercise it without Windows in the loop.
+# ----------------------------------------------------------------------
+
+CC       ?= gcc
+HOSTCC   ?= cc
+CFLAGS   ?= -std=c99 -Wall -Wextra -Os -s
+SRC       = src/um.c src/um_win.c src/um_parse.c
+HDR       = src/um_parse.h src/um_win.h
+
+X64CC     = x86_64-w64-mingw32-gcc
+X86CC     = i686-w64-mingw32-gcc
+
+.PHONY: all test cross clean
+
+all: dist/um.exe
+
+dist/um.exe: $(SRC) $(HDR)
+	@mkdir -p dist
+	$(CC) $(CFLAGS) -Isrc -o $@ $(SRC)
+	@echo "built $@"
+
+cross: $(SRC) $(HDR)
+	@mkdir -p dist
+	$(X64CC) $(CFLAGS) -Isrc -o dist/um.exe     $(SRC)
+	$(X86CC) $(CFLAGS) -Isrc -o dist/um-x86.exe $(SRC)
+	@echo "built dist/um.exe (x64) and dist/um-x86.exe (x86)"
+
+test: build/test_parse
+	@./build/test_parse
+
+build/test_parse: test/test_parse.c src/um_parse.c $(HDR)
+	@mkdir -p build
+	$(HOSTCC) -std=c99 -Wall -Wextra -O1 -Isrc -o $@ test/test_parse.c src/um_parse.c
+
+clean:
+	rm -rf build dist/um.exe dist/um-x86.exe dist/um-debug.exe
